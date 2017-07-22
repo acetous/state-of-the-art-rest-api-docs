@@ -1,18 +1,8 @@
-buildscript {
-	ext {
-		springBootVersion = '1.5.4.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+plugins {
+	id "java"
+	id "org.asciidoctor.convert" version "1.5.3"
+	id "org.springframework.boot" version "1.5.4.RELEASE"
 }
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -23,8 +13,31 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('org.springframework.boot:spring-boot-devtools')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+    asciidoctor('org.springframework.restdocs:spring-restdocs-asciidoctor:1.2.1.RELEASE')
+    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc:1.2.1.RELEASE')
+    testCompile('org.springframework.restdocs:spring-restdocs-core:1.2.1.RELEASE')
+
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-devtools')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+jar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
 }

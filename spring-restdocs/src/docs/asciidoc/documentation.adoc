@@ -1,0 +1,26 @@
+= Document REST APIs with Spring REST Docs
+
+== The index resource
+
+=== Request
+include::{snippets}/index/http-request.adoc[]
+
+=== Reponse
+include::{snippets}/index/http-response.adoc[]
+
+== The time resource
+
+=== Request
+include::{snippets}/time/http-request.adoc[]
+
+=== Reponse
+include::{snippets}/time/http-response.adoc[]
+include::{snippets}/time/response-fields.adoc[]
+
+== The name resource
+
+=== Request
+include::{snippets}/name/http-request.adoc[]
+
+=== Reponse
+include::{snippets}/name/http-response.adoc[]
